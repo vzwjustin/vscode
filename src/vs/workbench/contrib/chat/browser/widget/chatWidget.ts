@@ -1200,14 +1200,14 @@ export class ChatWidget extends Disposable implements IChatWidget {
 		}
 	}
 
-	private async renderChatEditingSessionState() {
+	private renderChatEditingSessionState() {
 		if (!this.input) {
 			return;
 		}
 		this.input.renderChatEditingSessionState(this._editingSession.get() ?? null);
 	}
 
-	private async renderFollowups(): Promise<void> {
+	private renderFollowups(): void {
 		if (this.lastItem && isResponseVM(this.lastItem) && this.lastItem.isComplete) {
 			this.input.renderFollowups(this.lastItem.replyFollowups, this.lastItem);
 		} else {
@@ -2320,7 +2320,7 @@ export class ChatWidget extends Disposable implements IChatWidget {
 			const requests = this.viewModel.model.getRequests();
 			for (let i = requests.length - 1; i >= 0; i -= 1) {
 				const request = requests[i];
-				if (request.shouldBeBlocked) {
+				if (request.shouldBeBlocked.get()) {
 					this.chatService.removeRequest(this.viewModel.sessionResource, request.id);
 				}
 			}
